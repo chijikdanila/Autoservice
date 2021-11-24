@@ -15,6 +15,12 @@ namespace Autoservice.Forms
         public Registry()
         {
             InitializeComponent();
+            transportTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private void transportTypeComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() => { transportTypeComboBox.Select(0, 0); }));
         }
     }
 }
