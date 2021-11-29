@@ -77,63 +77,72 @@ namespace Autoservice.Forms
             DefectiveNotRepaired,
             Decommissioned
         }
-    #endregion
+        #endregion
 
         #region Data setters
         private string SetManufacturer()
+        {
+            if (new string[] {
+                "Audi",
+                "BMW",
+                "Volkswagen",
+                "Mercedes-Benz",
+                "Opel",
+            }.Contains<string>(car.Model)) return "Germany";
+
+            if (new string[] {
+                "Peugeot",
+                "Renault",
+                "Skoda",
+                "Volvo"
+            }.Contains<string>(car.Model)) return "Europe";
+
+            if (new string[] {
+                "Subaru",
+                "Suzuki",
+                "Toyota",
+                "Lexus",
+                "Mazda",
+                "Mitsubishi",
+                "Nissan",
+                "Honda",
+            }.Contains<string>(car.Model)) return "Japan";
+
+            if (new string[] {
+                "Hyundai",
+                "Daewoo",
+                "Kia",
+            }.Contains<string>(car.Model)) return "Korea";
+
+            if (new string[] {
+                "Geely",
+            }.Contains<string>(car.Model)) return "China";
+
+            if (new string[] {
+                "Cadillac",
+                "Chevrolet",
+                "Chrysler",
+                "Dodge",
+                "Ford",
+                "Hummer",
+                "Jeep",
+            }.Contains<string>(car.Model)) return "USA";
+
+            if (new string[] {
+                "Lada (ВАЗ)"
+            }.Contains<string>(car.Model)) return "Russia";
+
+            return null;
+        }
+
+        private void IsFullfilled()
+        {
+            if (car.isFullyDescribed())
             {
-                if (new string[] {
-                    "Audi",
-                    "BMW",
-                    "Volkswagen",
-                    "Mercedes-Benz",
-                    "Opel",
-                }.Contains<string>(car.Model)) return "Germany";
-
-                if (new string[] {
-                    "Peugeot",
-                    "Renault",
-                    "Skoda",
-                    "Volvo"
-                }.Contains<string>(car.Model)) return "Europe";
-
-                if (new string[] {
-                    "Subaru",
-                    "Suzuki",
-                    "Toyota",
-                    "Lexus",
-                    "Mazda",
-                    "Mitsubishi",
-                    "Nissan",
-                    "Honda",
-                }.Contains<string>(car.Model)) return "Japan";
-
-                if (new string[] {
-                    "Hyundai",
-                    "Daewoo",
-                    "Kia",
-                }.Contains<string>(car.Model)) return "Korea";
-
-                if (new string[] {
-                    "Geely",
-                }.Contains<string>(car.Model)) return "China";
-
-                if (new string[] {
-                    "Cadillac",
-                    "Chevrolet",
-                    "Chrysler",
-                    "Dodge",
-                    "Ford",
-                    "Hummer",
-                    "Jeep",
-                }.Contains<string>(car.Model)) return "USA";
-
-                if (new string[] {
-                    "Lada (ВАЗ)"
-                }.Contains<string>(car.Model)) return "Russia";
-
-                return null;
+                initializeCarButton.Enabled = true;
             }
+        }
+
         #endregion
         public Registry()
         {
@@ -151,6 +160,7 @@ namespace Autoservice.Forms
             car.IsTruck = true;
             transportBodyComboBox.Items.Clear();
             transportBodyComboBox.Items.AddRange(_truckBodyList);
+            IsFullfilled();
         }
 
         private void carRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -158,10 +168,11 @@ namespace Autoservice.Forms
             car.IsTruck = false;
             transportBodyComboBox.Items.Clear();
             transportBodyComboBox.Items.AddRange(_carBodyList);
+            IsFullfilled();
         }
         #endregion
 
-        #region ComboBoxesEvents
+        #region ComboBoxes events
         private void transportModelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (transportModelComboBox.SelectedIndex != -1)
@@ -175,7 +186,8 @@ namespace Autoservice.Forms
 
         private void transportBodyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            car.Model = transportBodyComboBox.SelectedItem.ToString();
+            car.CarType = transportBodyComboBox.SelectedItem.ToString();
+            IsFullfilled();
         }
 
         private void transportModelComboBox_DropDownClosed(object sender, EventArgs e)
@@ -189,7 +201,7 @@ namespace Autoservice.Forms
         }
         #endregion
 
-        #region TextBox events
+        #region TextBoxes events
         private void transportModelTextBox_TextChanged(object sender, EventArgs e)
         {
             car.Model = transportModelTextBox.Text.ToString();
@@ -201,11 +213,19 @@ namespace Autoservice.Forms
         private void manufacturerTextBox_TextChanged(object sender, EventArgs e)
         {
             car.Manufacturer = manufacturerTextBox.Text.ToString();
+            IsFullfilled();
         }
 
         private void carAssemblyTextBox_TextChanged(object sender, EventArgs e)
         {
             car.CarAssembly = carAssemblyTextBox.Text.ToString();
+            IsFullfilled();
+        }
+
+        private void transportNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            car.CarNumber = transportNumberTextBox.Text.ToString();
+            IsFullfilled();
         }
         #endregion
     }

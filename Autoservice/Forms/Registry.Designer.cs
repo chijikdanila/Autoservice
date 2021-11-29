@@ -44,6 +44,7 @@ namespace Autoservice.Forms
             this.carAssemblyTextBox = new System.Windows.Forms.TextBox();
             this.transportNumberGroupBox = new System.Windows.Forms.GroupBox();
             this.transportNumberTextBox = new System.Windows.Forms.TextBox();
+            this.initializeCarButton = new System.Windows.Forms.Button();
             this.transportModelGroupBox.SuspendLayout();
             this.transportTypeGroupBox.SuspendLayout();
             this.transportBodyGroupBox.SuspendLayout();
@@ -212,13 +213,27 @@ namespace Autoservice.Forms
             this.transportNumberTextBox.Name = "transportNumberTextBox";
             this.transportNumberTextBox.Size = new System.Drawing.Size(118, 22);
             this.transportNumberTextBox.TabIndex = 12;
+            this.transportNumberTextBox.TextChanged += new System.EventHandler(this.transportNumberTextBox_TextChanged);
+            // 
+            // initializeCarButton
+            // 
+            this.initializeCarButton.BackColor = System.Drawing.SystemColors.InfoText;
+            this.initializeCarButton.Enabled = false;
+            this.initializeCarButton.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.initializeCarButton.Location = new System.Drawing.Point(193, 310);
+            this.initializeCarButton.Name = "initializeCarButton";
+            this.initializeCarButton.Size = new System.Drawing.Size(95, 36);
+            this.initializeCarButton.TabIndex = 12;
+            this.initializeCarButton.Text = "Add";
+            this.initializeCarButton.UseVisualStyleBackColor = false;
             // 
             // Registry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(622, 433);
+            this.ClientSize = new System.Drawing.Size(502, 373);
+            this.Controls.Add(this.initializeCarButton);
             this.Controls.Add(this.transportNumberGroupBox);
             this.Controls.Add(this.transportAssemblyGroupBox);
             this.Controls.Add(this.manufacturerGroupBox);
@@ -262,5 +277,6 @@ namespace Autoservice.Forms
         private System.Windows.Forms.TextBox carAssemblyTextBox;
         private System.Windows.Forms.GroupBox transportNumberGroupBox;
         private System.Windows.Forms.TextBox transportNumberTextBox;
+        private System.Windows.Forms.Button initializeCarButton;
     }
 }
