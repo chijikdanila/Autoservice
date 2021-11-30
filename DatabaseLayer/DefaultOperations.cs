@@ -9,9 +9,9 @@ using DatabaseLayer.Entities;
 namespace DatabaseLayer
 {
 
-    public class DefaultOperations
+    public static class DefaultOperations
     {
-        private readonly static string connectionString = @"Data Source=DESKTOP-CD8E4R3\SQLEXPRESS; Initial Catalog=Autoservice; Integrated Security=True;";
+        private readonly static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=Autoservice; Integrated Security=True;";
         //private static SqlConnection connection = new SqlConnection(connectionString);
         delegate List<List<object>> DBOperation(params string[] operations);
         /// <summary>
@@ -37,12 +37,12 @@ namespace DatabaseLayer
                             {
                                 while (reader.Read())
                                 {
-                                    var raw = new List<object>();
+                                    var row = new List<object>();
                                     for (int i = 0; i < reader.FieldCount; i++)
                                     {
-                                        raw.Add(reader.GetValue(i));
+                                        row.Add(reader.GetValue(i));
                                     }
-                                    result.Add(raw);
+                                    result.Add(row);
                                 }
                             }
                         }
@@ -58,20 +58,20 @@ namespace DatabaseLayer
         {
             var table = operation($@"SELECT * FROM [dbo].[Users]");
             var userList = new List<User>();
-            for (int raw = 0; raw < table.Count; raw++)
+            for (int row = 0; row < table.Count; row++)
             {
                 userList.Add(new User()
                 {
-                    id = (int)table[raw][0],
-                    NickName = (string)table[raw][1],
-                    Pass = (string)table[raw][2],
-                    User_Type = (bool)table[raw][3]
+                    id = (int)table[row][0],
+                    NickName = (string)table[row][1],
+                    Pass = (string)table[row][2],
+                    User_Type = (bool)table[row][3]
                 });
             }
             return userList;
         }
 
-        public static User getUser(string Nickname, string Pass)
+        public static User GetUser(string Nickname, string Pass)
         {
             User user = null;
             var table = operation($"SELECT * FROM [dbo].[Users] WHERE (NickName = '{Nickname}' and Pass = '{Pass}')");
@@ -79,14 +79,44 @@ namespace DatabaseLayer
             {
                 return null;
             }
-            var raw = table[0];
+            var row = table[0];
             user = new User() { 
-                id = (int)raw[0], 
-                NickName = (string)raw[1], 
-                Pass = (string)raw[2], 
-                User_Type = (bool)raw[3] 
+                id = (int)row[0], 
+                NickName = (string)row[1], 
+                Pass = (string)row[2], 
+                User_Type = (bool)row[3] 
             };
             return user;
+        }
+
+        public static List<Car> GetCars()
+        {
+            var table = operation($@"SELECT * FROM [dbo].[Car]");
+            var carList = new List<Car>();
+            for (int row = 0; row < table.Count; row++)
+            {
+                carList.Add(new Car()
+                {
+                    id = (int)table[row][0],
+                    IsTruck = (bool)table[row][1],
+                    Model = (string)table[row][2],
+                    CarType = (string)table[row][3],
+                    Manufacturer = (string)table[row][4],
+                    CarAssembly = (string)table[row][5],
+                    CarNumber = (string)table[row][6],
+                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7]
+                });
+            }
+            return carList;
+        }
+
+        public static string GetCarStatus(int id)
+        {
+            var table = operation($@"SELECT * FROM [dbo].[CarStatus] WHERE id = {id}");
+            if (table.Count == 0)
+                return "";
+            else
+                return (string)table[0][1];
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Autoservice.Forms
         private void loginButton_Click(object sender, EventArgs e)
         {
             User currentUser = null;
-            currentUser = DefaultOperations.getUser(usernameTextBox.Text, passwordTextBox.Text);
+            currentUser = DefaultOperations.GetUser(usernameTextBox.Text, passwordTextBox.Text);
 
             //foreach (var user in users)
             //{

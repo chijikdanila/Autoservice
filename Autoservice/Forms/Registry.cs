@@ -37,7 +37,7 @@ namespace Autoservice.Forms
             "Jeep",
             "Hyundai",
             "Kia",
-            "Lada (ВАЗ)",
+            "Lada",
             "Lexus",
             "Mazda",
             "Mercedes-Benz",
