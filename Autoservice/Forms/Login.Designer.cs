@@ -39,20 +39,22 @@ namespace Autoservice.Forms
             // usernameTextBox
             // 
             this.usernameTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.usernameTextBox.Location = new System.Drawing.Point(312, 169);
+            this.usernameTextBox.Location = new System.Drawing.Point(416, 208);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.usernameTextBox.MaxLength = 25;
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(150, 26);
+            this.usernameTextBox.Size = new System.Drawing.Size(199, 30);
             this.usernameTextBox.TabIndex = 0;
             this.usernameTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.usernameTextBox_MouseClick);
             // 
             // passwordTextBox
             // 
             this.passwordTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passwordTextBox.Location = new System.Drawing.Point(312, 208);
+            this.passwordTextBox.Location = new System.Drawing.Point(416, 256);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBox.MaxLength = 25;
             this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(150, 26);
+            this.passwordTextBox.Size = new System.Drawing.Size(199, 30);
             this.passwordTextBox.TabIndex = 1;
             this.passwordTextBox.UseSystemPasswordChar = true;
             this.passwordTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.passwordTextBox_MouseClick);
@@ -63,9 +65,10 @@ namespace Autoservice.Forms
             this.loginLable.BackColor = System.Drawing.SystemColors.Control;
             this.loginLable.Font = new System.Drawing.Font("Palatino Linotype", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loginLable.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.loginLable.Location = new System.Drawing.Point(344, 100);
+            this.loginLable.Location = new System.Drawing.Point(459, 123);
+            this.loginLable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.loginLable.Name = "loginLable";
-            this.loginLable.Size = new System.Drawing.Size(83, 36);
+            this.loginLable.Size = new System.Drawing.Size(107, 46);
             this.loginLable.TabIndex = 2;
             this.loginLable.Text = "Login";
             // 
@@ -74,9 +77,10 @@ namespace Autoservice.Forms
             this.forgetLabel.AutoSize = true;
             this.forgetLabel.Font = new System.Drawing.Font("Palatino Linotype", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.forgetLabel.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.forgetLabel.Location = new System.Drawing.Point(309, 237);
+            this.forgetLabel.Location = new System.Drawing.Point(412, 292);
+            this.forgetLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.forgetLabel.Name = "forgetLabel";
-            this.forgetLabel.Size = new System.Drawing.Size(100, 18);
+            this.forgetLabel.Size = new System.Drawing.Size(133, 25);
             this.forgetLabel.TabIndex = 3;
             this.forgetLabel.Text = "Forgot password?";
             this.forgetLabel.Click += new System.EventHandler(this.forgetLabel_Click);
@@ -89,9 +93,10 @@ namespace Autoservice.Forms
             this.loginButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
             this.loginButton.Font = new System.Drawing.Font("Palatino Linotype", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.loginButton.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.loginButton.Location = new System.Drawing.Point(312, 288);
+            this.loginButton.Location = new System.Drawing.Point(416, 354);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(4);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(150, 39);
+            this.loginButton.Size = new System.Drawing.Size(200, 48);
             this.loginButton.TabIndex = 4;
             this.loginButton.Text = "SIGN IN";
             this.loginButton.UseVisualStyleBackColor = false;
@@ -99,18 +104,20 @@ namespace Autoservice.Forms
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Autoservice.Properties.Resources.LoginImage;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.forgetLabel);
             this.Controls.Add(this.loginLable);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();

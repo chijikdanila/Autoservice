@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autoservice.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,23 @@ namespace Autoservice
 {
     public partial class Menu : Form
     {
-        public Menu()
+        private User user;
+        //Для закрытия формы вне формы
+        public delegate void ShowAncestor();
+        private ShowAncestor showAncestor;
+
+        public Menu(User user, ShowAncestor _delegate)
         {
+            this.user = user;
+            showAncestor = _delegate;
             InitializeComponent();
         }
+
+        #region Form events
+        private void Menu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            showAncestor.Invoke();
+        }
+        #endregion
     }
 }

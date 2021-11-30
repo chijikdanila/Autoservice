@@ -51,3 +51,10 @@ CREATE TABLE IntermediateTotals(
 	FOREIGN KEY (CarId) REFERENCES Car (id) ON DELETE CASCADE,
 	FOREIGN KEY (ServiceTypeId) REFERENCES ServiceType (id) ON DELETE CASCADE,
 );
+
+--Add data
+USE Autoservice;
+
+INSERT INTO Users
+VALUES ('admin', 'admin', 1),
+	   ('user', 'user', 0)

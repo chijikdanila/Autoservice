@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DatabaseLayer.Entities;
+using DatabaseLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,12 @@ namespace Autoservice.Forms
 {
     public partial class Login : Form
     {
+        List<User> users;
+        
         public Login()
         {
             InitializeComponent();
+            users = DefaultOperations.GetUsers();
         }
 
         private void forgetLabel_Click(object sender, EventArgs e)
@@ -24,23 +29,38 @@ namespace Autoservice.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            //User currentUser;
+            User currentUser = null;
+            currentUser = DefaultOperations.getUser(usernameTextBox.Text, passwordTextBox.Text);
 
             //foreach (var user in users)
             //{
-            //    if (usernameTextBox.Text == user.Login && passwordTextBox.Text == user.Password)
+            //    if (usernameTextBox.Text == user.NickName && passwordTextBox.Text == user.Pass)
             //    {
             //        currentUser = user;
             //        break;
             //    }
             //}
 
-            //if (currentUser == null)
-            //{
-            //    Some logic like
-            //    MessageBox.Show("Incorrect user", "Warning!", MessageBoxButton.OK);
-            //}
-            
+            if (currentUser is null)
+            {
+                //Some logic like
+                MessageBox.Show("Incorrect user", "Warning!", MessageBoxButtons.OK);
+            }
+            else if (currentUser.User_Type)
+            {
+                //Open menu form
+                Menu menuForm = new Menu(currentUser, this.Close);
+                menuForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                //Open registry form
+                Registry registryForm = new Registry(currentUser, this.Close);
+                registryForm.Show();
+                this.Hide();
+            }
+
         }
 
         private void usernameTextBox_MouseClick(object sender, MouseEventArgs e)

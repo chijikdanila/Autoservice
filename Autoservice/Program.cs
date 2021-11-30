@@ -17,7 +17,7 @@ namespace Autoservice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Registry());
+            Application.Run(new Login());
         }
     }
 }

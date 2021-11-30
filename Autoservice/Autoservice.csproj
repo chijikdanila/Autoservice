@@ -46,12 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Accounting.cs" />
-    <Compile Include="Entities\Car.cs" />
-    <Compile Include="Entities\CarStatus.cs" />
-    <Compile Include="Entities\IntermediateTotals.cs" />
-    <Compile Include="Entities\ServiceType.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Forms\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +100,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\LoginImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseLayer\DatabaseLayer.csproj">
+      <Project>{771238d4-92db-4b0e-ad7b-12c7c31fea8e}</Project>
+      <Name>DatabaseLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

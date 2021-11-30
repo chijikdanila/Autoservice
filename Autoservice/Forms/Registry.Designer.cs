@@ -246,6 +246,7 @@ namespace Autoservice.Forms
             this.Name = "Registry";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registry";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Registry_FormClosed);
             this.transportModelGroupBox.ResumeLayout(false);
             this.transportModelGroupBox.PerformLayout();
             this.transportTypeGroupBox.ResumeLayout(false);

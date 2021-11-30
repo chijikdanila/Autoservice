@@ -1,4 +1,4 @@
-﻿using Autoservice.Entities;
+﻿using DatabaseLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,12 @@ namespace Autoservice.Forms
 {
     public partial class Registry : Form
     {
-        public Car car;
+        private Car car;
+        private User user;
+
+        //Для закрытия формы вне формы
+        public delegate void ShowAncestor();
+        private ShowAncestor showAncestor;
 
         #region Data lists
         private string[] _transportModelList = new string[]
@@ -144,9 +149,11 @@ namespace Autoservice.Forms
         }
 
         #endregion
-        public Registry()
+        public Registry(User user, ShowAncestor _delegate)
         {
             car = new Car();
+            this.user = user;
+            showAncestor = _delegate;
             car.StatusId = (int)_status.DefectiveNotRepaired;
             InitializeComponent();
             transportModelComboBox.Items.AddRange(_transportModelList);
@@ -226,6 +233,13 @@ namespace Autoservice.Forms
         {
             car.CarNumber = transportNumberTextBox.Text.ToString();
             IsFullfilled();
+        }
+        #endregion
+
+        #region Form events
+        private void Registry_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            showAncestor.Invoke();
         }
         #endregion
     }

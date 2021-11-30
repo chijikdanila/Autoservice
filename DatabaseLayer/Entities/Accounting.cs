@@ -1,4 +1,4 @@
-﻿namespace Autoservice.Entities
+﻿namespace DatabaseLayer.Entities
 {
     public class Accounting
     {

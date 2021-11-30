@@ -35,9 +35,14 @@ namespace Autoservice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Menu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Menu_FormClosed);
             this.ResumeLayout(false);
 
         }
