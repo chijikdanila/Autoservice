@@ -55,6 +55,28 @@ CREATE TABLE IntermediateTotals(
 --Add data
 USE Autoservice;
 
+INSERT INTO CarStatus
+VALUES	('serviceable operated'),
+		('serviceable not exploited'),
+		('faulty being repaired'),
+		('defective cannot be repaired'),
+		('decommissioned')
+
+INSERT INTO Car
+VALUES (0, 'Audi', 'Sedan', 'Germany', '123', 'AB-9874-7', 2),
+	   (1, 'BMW', 'Tank car', 'Germany', '568', 'AM-1111-7', 5),
+	   (0, 'Peugeot', 'Sedan', 'Europe', '56as8', 'AM-1222-2', 3),
+	   (0, 'Skoda', 'Sedan', 'Europe', '5dd68', 'PP-6711-4', 1),
+	   (0, 'Mazda', 'Hatchback', 'Japan', '52eeee68', 'OB-4771-3', 1),
+	   (1, 'Skoda', 'Auto transporter', 'Europe', '1111q568', 'PA-6721-4', 1),
+	   (0, 'Mazda', 'Coupe', 'Japan', 'qqAll', 'AA-1771-2', 1),
+	   (0, 'Skoda', 'Sedan', 'Europe', 'zxc', 'PP-6721-4', 1),
+	   (0, 'Mazda', 'Hatchback', 'Japan', 'aaaaaaa', 'OB-1771-3', 1),
+	   (0, 'Lada (ÂÀÇ)', 'Cabriolet', 'Russia', '568', 'AM-3333-3', 5),
+	   (1, 'Ford', 'Euro truck', 'USA', '1337', 'OO-9999-1', NULL),
+	   (0, 'Opel', 'Sedan', 'Germany', '228', 'AM-1337-3', NULL),
+	   (0, 'Toyota', 'Sedan', 'Japan', '322', 'BP-4720-4', NULL);
+
 INSERT INTO Users
 VALUES ('admin', 'admin', 1),
 	   ('user', 'user', 0)
