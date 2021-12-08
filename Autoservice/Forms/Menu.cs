@@ -37,9 +37,10 @@ namespace Autoservice
             dataGridViewForCars.Columns.Add("CarAssembly", "CarAssembly");
             dataGridViewForCars.Columns.Add("CarNumber", "CarNumber");
             dataGridViewForCars.Columns.Add("Status", "Status");
+            dataGridViewForCars.Columns.Add("Mechanic", "Mechanic");
             dataGridViewForCars.Columns[0].Width = 50;
-            dataGridViewForCars.Columns[4].Width = 195;
             dataGridViewForCars.Columns[6].Width = 200;
+            dataGridViewForCars.Columns[7].Width = 95;
 
             UpdateGridView(DefaultOperations.GetCars());
         }
@@ -51,7 +52,7 @@ namespace Autoservice
             foreach (var car in carList)
             {
                 dataGridViewForCars.Rows.Add( car.IsTruck ? "Truck" : "Car", car.Model, car.CarType, car.Manufacturer, 
-                    car.CarAssembly, car.CarNumber, DefaultOperations.GetCarStatus(car.StatusId));
+                    car.CarAssembly, car.CarNumber, DefaultOperations.GetCarStatus(car.StatusId), car.MechanicId);
             }
         }
 
@@ -64,14 +65,15 @@ namespace Autoservice
 
         private void searchCarButton_Click(object sender, EventArgs e)
         {
-            Car findCar = new Car() { 
-                IsTruck = isTruckComboBox.Text == "Truck" ? true : false, 
+            Car findCar = new Car() {
+                IsTruck = isTruckComboBox.Text == "Truck" ? true : false,
                 Model = modelTextBox.Text,
                 CarType = carTypeTextBox.Text,
                 Manufacturer = manufacturerTextBox.Text,
                 CarAssembly = carAssemblyTextBox.Text,
                 CarNumber = carNumberTextBox.Text,
-                StatusId = carStatusComboBox.SelectedIndex + 1
+                StatusId = carStatusComboBox.SelectedIndex + 1,
+                MechanicId = mechanicTextBox.Text != string.Empty ? Convert.ToInt32(mechanicTextBox.Text) : 0
             };
 
             UpdateGridView(DefaultOperations.SearchCars(findCar));
@@ -83,6 +85,7 @@ namespace Autoservice
             carAssemblyTextBox.Text = string.Empty;
             carNumberTextBox.Text = string.Empty;
             carStatusComboBox.SelectedItem = -1;
+            mechanicTextBox.Text = string.Empty;
         }
 
         private void addCarButton_Click(object sender, EventArgs e)
@@ -121,6 +124,7 @@ namespace Autoservice
             CarAssembly = (string)row.Cells[4].Value,
             CarNumber = (string)row.Cells[5].Value,
             StatusId = DefaultOperations.GetStatusId((string)row.Cells[6].Value),
+            MechanicId = (int)row.Cells[7].Value
         };
 
         private void dataGridViewForCars_MouseDoubleClick(object sender, MouseEventArgs e)

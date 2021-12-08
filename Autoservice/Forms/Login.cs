@@ -14,7 +14,8 @@ namespace Autoservice.Forms
 {
     public partial class Login : Form
     {
-        List<User> users;
+        private User currentUser = null;
+        private List<User> users;
         
         public Login()
         {
@@ -29,7 +30,6 @@ namespace Autoservice.Forms
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            User currentUser = null;
             currentUser = DefaultOperations.GetUser(usernameTextBox.Text, passwordTextBox.Text);
 
             //foreach (var user in users)
@@ -56,7 +56,9 @@ namespace Autoservice.Forms
             else
             {
                 //Open registry form
-                
+                MechanicForm mechanicForm = new MechanicForm(currentUser, this.Close);
+                mechanicForm.Show();
+                this.Hide();
             }
 
         }

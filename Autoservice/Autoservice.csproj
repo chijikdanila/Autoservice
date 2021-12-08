@@ -52,6 +52,18 @@
     <Compile Include="Forms\CarInfo.Designer.cs">
       <DependentUpon>CarInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\CarStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CarStatus.Designer.cs">
+      <DependentUpon>CarStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MechanicForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MechanicForm.Designer.cs">
+      <DependentUpon>MechanicForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,8 +87,14 @@
     <EmbeddedResource Include="Forms\CarInfo.resx">
       <DependentUpon>CarInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CarStatus.resx">
+      <DependentUpon>CarStatus.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MechanicForm.resx">
+      <DependentUpon>MechanicForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
