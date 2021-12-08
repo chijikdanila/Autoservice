@@ -126,6 +126,10 @@ namespace Autoservice.Forms
                 return;
             }
 
+            var mechanics = DefaultOperations.GetUsers().Where(user => user.User_Type == false);
+            selectedCar.id = carId;
+            selectedCar.MechanicId = mechanics.Where(user => user.NickName == mechanicsComboBox.SelectedItem.ToString()).First().id;  
+
             Accounting accounting = new Accounting
             {
                 CarId = carId,
@@ -137,10 +141,10 @@ namespace Autoservice.Forms
 
             DefaultOperations.AddAccounting(accounting);
             DefaultOperations.ChangeCarStatus(carId, (int)RepairStatus.FaultyBeingRepaired);
+            DefaultOperations.UpdateCar(selectedCar);
+            this.menuForm.UpdateGridView(DefaultOperations.GetCars());
 
-            MessageBox.Show("Successfully added !", "Success", MessageBoxButtons.OK);
-
-            
+            MessageBox.Show("Successfully added!", "Success", MessageBoxButtons.OK);
 
             this.Close();
         }

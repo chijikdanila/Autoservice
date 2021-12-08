@@ -11,7 +11,7 @@ namespace DatabaseLayer
 
     public static class DefaultOperations
     {
-        private readonly static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=Autoservice; Integrated Security=True;";
+        private readonly static string connectionString = @"Data Source=DANILA\SQLEXPRESS; Initial Catalog=Autoservice; Integrated Security=True;";
         //private static SqlConnection connection = new SqlConnection(connectionString);
         delegate List<List<object>> DBOperation(params string[] operations);
         /// <summary>
@@ -104,7 +104,8 @@ namespace DatabaseLayer
                     Manufacturer = (string)table[row][4],
                     CarAssembly = (string)table[row][5],
                     CarNumber = (string)table[row][6],
-                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7]
+                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7],
+                    MechanicId = (int)table[row][8]
                 });
             }
             return carList;
@@ -164,6 +165,11 @@ namespace DatabaseLayer
                 list.Add($"StatusId = {car.StatusId}");
             }
 
+            if (car.MechanicId != 0)
+            {
+                list.Add($"MechanicId = {car.MechanicId}");
+            }
+
             for (int i = 0; i < list.Count - 1; i++)
             {
                 query += list[i] + " AND ";
@@ -185,7 +191,8 @@ namespace DatabaseLayer
                     Manufacturer = (string)table[row][4],
                     CarAssembly = (string)table[row][5],
                     CarNumber = (string)table[row][6],
-                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7]
+                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7],
+                    MechanicId = (int)table[row][8]
                 });
             }
             return carList;
@@ -193,7 +200,7 @@ namespace DatabaseLayer
 
         public static void AddCar(Car car)
         {
-            operation($@"INSERT INTO [dbo].[Car] VALUES ({(car.IsTruck ? 1 : 0)}, '{car.Model}', '{car.CarType}', '{car.Manufacturer}', '{car.CarAssembly}', '{car.CarNumber}', {car.StatusId})");
+            operation($@"INSERT INTO [dbo].[Car] VALUES ({(car.IsTruck ? 1 : 0)}, '{car.Model}', '{car.CarType}', '{car.Manufacturer}', '{car.CarAssembly}', '{car.CarNumber}', {car.StatusId}, 1)");
         }
 
         public static void AddAccounting(Accounting carInfo)
@@ -218,6 +225,33 @@ namespace DatabaseLayer
         public static void ChangeCarStatus(int carId, int carStatusId)
         {
             operation($@"UPDATE [dbo].[Car] SET StatusId = {carStatusId} WHERE Id = {carId}");
+        }
+
+        public static void UpdateCar(Car car)
+        {
+            operation($@"UPDATE [dbo].[Car] SET MechanicId = {car.MechanicId} WHERE Id = {car.id}");
+        }
+
+        public static List<Car> GetMechanicCars(User user)
+        {
+            var table = operation($@"SELECT * FROM [dbo].[Car] WHERE MechanicId = {user.id}");
+            var carList = new List<Car>();
+            for (int row = 0; row < table.Count; row++)
+            {
+                carList.Add(new Car()
+                {
+                    id = (int)table[row][0],
+                    IsTruck = (bool)table[row][1],
+                    Model = (string)table[row][2],
+                    CarType = (string)table[row][3],
+                    Manufacturer = (string)table[row][4],
+                    CarAssembly = (string)table[row][5],
+                    CarNumber = (string)table[row][6],
+                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7],
+                    MechanicId = (int)table[row][8]
+                });
+            }
+            return carList;
         }
     }
 }

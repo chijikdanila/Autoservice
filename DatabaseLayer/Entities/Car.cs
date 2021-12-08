@@ -12,6 +12,7 @@ namespace DatabaseLayer.Entities
         public string CarAssembly { get; set; }
         public string CarNumber { get; set; }
         public int StatusId { get; set; }
+        public int MechanicId { get; set; }
 
         public bool isFullyDescribed()
         {
