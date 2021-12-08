@@ -245,7 +245,7 @@ namespace Autoservice.Forms
 
         private void Registry_FormClosed(object sender, FormClosedEventArgs e)
         {
-            menu.DataGridViewUpdate();
+            menu.UpdateGridView(DefaultOperations.GetCars());
             menu.Show();
         }
     }

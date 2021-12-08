@@ -11,7 +11,7 @@ namespace DatabaseLayer
 
     public static class DefaultOperations
     {
-        private readonly static string connectionString = @"Data Source=DANILA\SQLEXPRESS; Initial Catalog=Autoservice; Integrated Security=True;";
+        private readonly static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=Autoservice; Integrated Security=True;";
         //private static SqlConnection connection = new SqlConnection(connectionString);
         delegate List<List<object>> DBOperation(params string[] operations);
         /// <summary>
@@ -196,9 +196,28 @@ namespace DatabaseLayer
             operation($@"INSERT INTO [dbo].[Car] VALUES ({(car.IsTruck ? 1 : 0)}, '{car.Model}', '{car.CarType}', '{car.Manufacturer}', '{car.CarAssembly}', '{car.CarNumber}', {car.StatusId})");
         }
 
+        public static void AddAccounting(Accounting carInfo)
+        {
+            operation($@"INSERT INTO [dbo].[Accounting] VALUES ({carInfo.CarId}, {carInfo.Milleage}, {(int)carInfo.EngineStatus}, {(int)carInfo.ChassisStatus}, {(int)carInfo.CarcassStatus})");
+        }
+
         public static void DeleteCar(Car car)
         {
             operation($@"DELETE FROM [dbo].[Car] WHERE (IsTruck = {(car.IsTruck ? 1 : 0)} AND Model = '{car.Model}' AND CarType = '{car.CarType}' AND Manufacturer = '{car.Manufacturer}' AND CarAssembly = '{car.CarAssembly}' AND CarNumber = '{car.CarNumber}')");
+        }
+
+        public static int GetStatusId(string condition)
+        {
+            var table = operation($@"SELECT * FROM [dbo].[CarStatus] WHERE Condition = '{condition}'");
+            if (table.Count == 0)
+                return 0;
+            else
+                return (int)table[0][0];
+        }
+
+        public static void ChangeCarStatus(int carId, int carStatusId)
+        {
+            operation($@"UPDATE [dbo].[Car] SET StatusId = {carStatusId} WHERE Id = {carId}");
         }
     }
 }

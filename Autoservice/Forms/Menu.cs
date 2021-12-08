@@ -1,6 +1,7 @@
 ﻿using Autoservice.Forms;
 using DatabaseLayer;
 using DatabaseLayer.Entities;
+using DatabaseLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,13 +27,7 @@ namespace Autoservice
             showAncestor = _delegate;
             InitializeComponent();
             isTruckComboBox.SelectedIndex = 0;
-            DataGridViewUpdate();
-        }
 
-        public void DataGridViewUpdate()
-        {
-            var carList = DefaultOperations.GetCars();
-            //DataTable table = new DataTable("Cars");
             dataGridViewForCars.Rows.Clear();
             dataGridViewForCars.Columns.Clear();
             dataGridViewForCars.Columns.Add("IsTruck", "IsTruck");
@@ -45,6 +40,14 @@ namespace Autoservice
             dataGridViewForCars.Columns[0].Width = 50;
             dataGridViewForCars.Columns[4].Width = 195;
             dataGridViewForCars.Columns[6].Width = 200;
+
+            UpdateGridView(DefaultOperations.GetCars());
+        }
+
+        public void UpdateGridView(List<Car> carList)
+        {
+            dataGridViewForCars.Rows.Clear();
+            
             foreach (var car in carList)
             {
                 dataGridViewForCars.Rows.Add( car.IsTruck ? "Truck" : "Car", car.Model, car.CarType, car.Manufacturer, 
@@ -71,13 +74,7 @@ namespace Autoservice
                 StatusId = carStatusComboBox.SelectedIndex + 1
             };
 
-            List<Car> searchedCarList = DefaultOperations.SearchCars(findCar);
-            dataGridViewForCars.Rows.Clear();
-            foreach (var car in searchedCarList)
-            {
-                dataGridViewForCars.Rows.Add(car.IsTruck ? "Truck" : "Car", car.Model, car.CarType, car.Manufacturer,
-                    car.CarAssembly, car.CarNumber, DefaultOperations.GetCarStatus(car.StatusId));
-            }
+            UpdateGridView(DefaultOperations.SearchCars(findCar));
 
             isTruckComboBox.SelectedItem = -1;
             modelTextBox.Text = string.Empty;
@@ -96,24 +93,97 @@ namespace Autoservice
 
         private void deleteCarButton_Click(object sender, EventArgs e)
         {
-            Car deleteCar = new Car() {
-                IsTruck = (string) dataGridViewForCars.SelectedRows[0].Cells[0].Value == "Truck",
-                Model = (string) dataGridViewForCars.SelectedRows[0].Cells[1].Value,
-                CarType = (string) dataGridViewForCars.SelectedRows[0].Cells[2].Value,
-                Manufacturer = (string) dataGridViewForCars.SelectedRows[0].Cells[3].Value,
-                CarAssembly = (string) dataGridViewForCars.SelectedRows[0].Cells[4].Value,
-                CarNumber = (string) dataGridViewForCars.SelectedRows[0].Cells[5].Value,
-            };
+            DataGridViewRow row;
+
+            try
+            {
+                row = dataGridViewForCars.SelectedRows[0];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Please, choose car to delete.", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
+            Car deleteCar = ParseCarFromRow(row);
 
             DefaultOperations.DeleteCar(deleteCar);
 
-            dataGridViewForCars.Rows.Clear();
-            var carList = DefaultOperations.GetCars();
-            foreach (var car in carList)
+            UpdateGridView(DefaultOperations.GetCars());
+        }
+
+        private Car ParseCarFromRow(DataGridViewRow row) => new Car()
+        {
+            IsTruck = (string)row.Cells[0].Value == "Truck",
+            Model = (string)row.Cells[1].Value,
+            CarType = (string)row.Cells[2].Value,
+            Manufacturer = (string)row.Cells[3].Value,
+            CarAssembly = (string)row.Cells[4].Value,
+            CarNumber = (string)row.Cells[5].Value,
+            StatusId = DefaultOperations.GetStatusId((string)row.Cells[6].Value),
+        };
+
+        private void dataGridViewForCars_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            DataGridViewRow row;
+
+            try
             {
-                dataGridViewForCars.Rows.Add(car.IsTruck ? "Truck" : "Car", car.Model, car.CarType, car.Manufacturer,
-                    car.CarAssembly, car.CarNumber, DefaultOperations.GetCarStatus(car.StatusId));
+                row = dataGridViewForCars.SelectedRows[0];
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Select car to see more information.", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
+            CarInfo carInfoForm = new CarInfo(this, ParseCarFromRow(row));
+            carInfoForm.Show();
+        }
+
+        private void putButton_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row;
+
+            try
+            {
+                row = dataGridViewForCars.SelectedRows[0];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Please, choose car to delete.", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
+            Car selectedCar = ParseCarFromRow(row);
+
+            try
+            {
+                int carId = DefaultOperations.GetCars().Where(car => car.Model == selectedCar.Model
+                    && car.Manufacturer == selectedCar.Manufacturer
+                    && car.CarNumber == selectedCar.CarNumber
+                    && car.CarAssembly == selectedCar.CarAssembly).First().id;
+
+                if (selectedCar.StatusId == (int)RepairStatus.ServiceableNotExploit)
+                {
+                    DefaultOperations.ChangeCarStatus(carId, (int)RepairStatus.ServiceableOperated);
+                }
+                else
+                {
+                    MessageBox.Show("Can not put into operation. Car is broken or being repaired.", "Warning", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
+
+            MessageBox.Show("Successfully updated!", "Success", MessageBoxButtons.OK);
+
+            UpdateGridView(DefaultOperations.GetCars());
         }
     }
 }

@@ -13,5 +13,10 @@
             if (string.IsNullOrEmpty(Pass)) return false;
             return true;
         }
+
+        public override string ToString()
+        {
+            return NickName;
+        }
     }
 }

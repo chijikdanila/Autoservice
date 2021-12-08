@@ -29,9 +29,9 @@ CREATE TABLE Accounting(
 	id INT IDENTITY(1, 1) PRIMARY KEY,
 	CarId INT NOT NULL,
 	Mileage INT,
-	EngineStatus VARCHAR(100) NOT NULL,
-	ChassisStatus VARCHAR(100) NOT NULL,
-	CarcassStatus VARCHAR(100) NOT NULL,
+	EngineStatus INT NOT NULL,
+	ChassisStatus INT NOT NULL,
+	CarcassStatus INT NOT NULL,
 	FOREIGN KEY (CarId) REFERENCES Car (id) ON DELETE CASCADE,
 );
 
