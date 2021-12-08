@@ -45,10 +45,13 @@
     <Compile Include="Entities\Accounting.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Entities\CarStatus.cs" />
+    <Compile Include="Entities\Enums\RepairStatus.cs" />
+    <Compile Include="Entities\Enums\Status.cs" />
     <Compile Include="Entities\IntermediateTotals.cs" />
     <Compile Include="Entities\ServiceType.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

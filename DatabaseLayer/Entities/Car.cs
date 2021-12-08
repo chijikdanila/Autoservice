@@ -1,4 +1,6 @@
-﻿namespace DatabaseLayer.Entities
+﻿using System;
+
+namespace DatabaseLayer.Entities
 {
     public class Car
     {        
@@ -19,6 +21,11 @@
             if (string.IsNullOrEmpty(CarAssembly)) return false;
             if (string.IsNullOrEmpty(CarNumber)) return false;
             return true;
+        }
+
+        public override string ToString()
+        {
+            return $"{Model} {CarNumber}, {Manufacturer}";
         }
     }
 }
