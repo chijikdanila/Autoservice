@@ -29,38 +29,36 @@ CREATE TABLE Accounting(
 	id INT IDENTITY(1, 1) PRIMARY KEY,
 	CarId INT NOT NULL,
 	Mileage INT,
-	Comissioning INT,
-	Decomissioning INT,
 	EngineStatus VARCHAR(100) NOT NULL,
 	ChassisStatus VARCHAR(100) NOT NULL,
 	CarcassStatus VARCHAR(100) NOT NULL,
 	FOREIGN KEY (CarId) REFERENCES Car (id) ON DELETE CASCADE,
 );
 
-CREATE TABLE ServiceType(
-	id INT IDENTITY(1,1) PRIMARY KEY,
-	TypeService VARCHAR(50) NOT NULL,
-	TimePeriod VARCHAR(50) NOT NULL,
-);
+--CREATE TABLE ServiceType(
+--	id INT IDENTITY(1,1) PRIMARY KEY,
+--	TypeService VARCHAR(50) NOT NULL,
+--	TimePeriod VARCHAR(50) NOT NULL,
+--);
 
-CREATE TABLE IntermediateTotals(
-	id INT IDENTITY(1,1) PRIMARY KEY,
-	CarId INT NOT NULL,
-	ServiceTypeId INT NOT NULL,
-	DateOfSerivce VARCHAR(50) NOT NULL,
-	FOREIGN KEY (CarId) REFERENCES Car (id) ON DELETE CASCADE,
-	FOREIGN KEY (ServiceTypeId) REFERENCES ServiceType (id) ON DELETE CASCADE,
-);
+--CREATE TABLE IntermediateTotals(
+--	id INT IDENTITY(1,1) PRIMARY KEY,
+--	CarId INT NOT NULL,
+--	ServiceTypeId INT NOT NULL,
+--	DateOfSerivce VARCHAR(50) NOT NULL,
+--	FOREIGN KEY (CarId) REFERENCES Car (id) ON DELETE CASCADE,
+--	FOREIGN KEY (ServiceTypeId) REFERENCES ServiceType (id) ON DELETE CASCADE,
+--);
 
 --Add data
 USE Autoservice;
 
 INSERT INTO CarStatus
-VALUES	('serviceable operated'),
-		('serviceable not exploited'),
-		('faulty being repaired'),
-		('defective cannot be repaired'),
-		('decommissioned')
+VALUES	('Serviceable operated'),
+		('Serviceable not exploited'),
+		('Faulty being repaired'),
+		('Defective cannot be repaired'),
+		('Decommissioned')
 
 INSERT INTO Car
 VALUES (0, 'Audi', 'Sedan', 'Germany', '123', 'AB-9874-7', 2),

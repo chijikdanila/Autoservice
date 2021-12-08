@@ -48,7 +48,7 @@ namespace Autoservice.Forms
             }
             else if (currentUser.User_Type)
             {
-                //Open menu form
+                //Open admin's menu form
                 Menu menuForm = new Menu(currentUser, this.Close);
                 menuForm.Show();
                 this.Hide();
@@ -56,9 +56,7 @@ namespace Autoservice.Forms
             else
             {
                 //Open registry form
-                Registry registryForm = new Registry(currentUser, this.Close);
-                registryForm.Show();
-                this.Hide();
+                
             }
 
         }

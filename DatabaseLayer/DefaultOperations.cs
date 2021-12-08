@@ -11,7 +11,7 @@ namespace DatabaseLayer
 
     public static class DefaultOperations
     {
-        private readonly static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=Autoservice; Integrated Security=True;";
+        private readonly static string connectionString = @"Data Source=DANILA\SQLEXPRESS; Initial Catalog=Autoservice; Integrated Security=True;";
         //private static SqlConnection connection = new SqlConnection(connectionString);
         delegate List<List<object>> DBOperation(params string[] operations);
         /// <summary>
@@ -74,7 +74,7 @@ namespace DatabaseLayer
         public static User GetUser(string Nickname, string Pass)
         {
             User user = null;
-            var table = operation($"SELECT * FROM [dbo].[Users] WHERE (NickName = '{Nickname}' and Pass = '{Pass}')");
+            var table = operation($"SELECT * FROM [dbo].[Users] WHERE (NickName = '{Nickname}' AND Pass = '{Pass}')");
             if (table.Count == 0)
             {
                 return null;
@@ -117,6 +117,88 @@ namespace DatabaseLayer
                 return "";
             else
                 return (string)table[0][1];
+        }
+
+        public static List<Car> SearchCars(Car car)
+        {
+            string query = "SELECT * FROM [dbo].[Car] WHERE ";
+
+            #region Hard logic
+            var list = new List<string>();
+            if (car.IsTruck)
+            {
+                list.Add("IsTruck = 1");
+            }
+            else
+            {
+                list.Add("IsTruck = 0");
+            }
+
+            if (car.Model != string.Empty)
+            {
+                list.Add($"Model = '{car.Model}'");
+            }
+            
+            if (car.CarType != string.Empty)
+            {
+                list.Add($"CarType = '{car.CarType}'");
+            }
+
+            if (car.Manufacturer != string.Empty)
+            {
+                list.Add($"Manufacturer = '{car.Manufacturer}'");
+            }
+
+            if (car.CarAssembly != string.Empty)
+            {
+                list.Add($"CarAssembly = '{car.CarAssembly}'");
+            }
+
+            if (car.CarNumber != string.Empty)
+            {
+                list.Add($"CarNumber = '{car.CarNumber}'");
+            }
+
+            if (car.StatusId != 0)
+            {
+                list.Add($"StatusId = {car.StatusId}");
+            }
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                query += list[i] + " AND ";
+            }
+
+            query += list[list.Count - 1];
+            #endregion
+
+            var table = operation(query);
+            var carList = new List<Car>();
+            for (int row = 0; row < table.Count; row++)
+            {
+                carList.Add(new Car()
+                {
+                    id = (int)table[row][0],
+                    IsTruck = (bool)table[row][1],
+                    Model = (string)table[row][2],
+                    CarType = (string)table[row][3],
+                    Manufacturer = (string)table[row][4],
+                    CarAssembly = (string)table[row][5],
+                    CarNumber = (string)table[row][6],
+                    StatusId = table[row][7] is System.DBNull ? -1 : (int)table[row][7]
+                });
+            }
+            return carList;
+        }
+
+        public static void AddCar(Car car)
+        {
+            operation($@"INSERT INTO [dbo].[Car] VALUES ({(car.IsTruck ? 1 : 0)}, '{car.Model}', '{car.CarType}', '{car.Manufacturer}', '{car.CarAssembly}', '{car.CarNumber}', {car.StatusId})");
+        }
+
+        public static void DeleteCar(Car car)
+        {
+            operation($@"DELETE FROM [dbo].[Car] WHERE (IsTruck = {(car.IsTruck ? 1 : 0)} AND Model = '{car.Model}' AND CarType = '{car.CarType}' AND Manufacturer = '{car.Manufacturer}' AND CarAssembly = '{car.CarAssembly}' AND CarNumber = '{car.CarNumber}')");
         }
     }
 }

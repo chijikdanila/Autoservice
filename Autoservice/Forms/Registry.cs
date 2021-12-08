@@ -1,4 +1,5 @@
 ﻿using DatabaseLayer.Entities;
+using DatabaseLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +15,7 @@ namespace Autoservice.Forms
     public partial class Registry : Form
     {
         private Car car;
-        private User user;
-
-        //Для закрытия формы вне формы
-        public delegate void ShowAncestor();
-        private ShowAncestor showAncestor;
+        private Menu menu;
 
         #region Data lists
         private string[] _transportModelList = new string[]
@@ -74,7 +71,7 @@ namespace Autoservice.Forms
             "Auto transporter",
             "Tank car"
         };
-        private enum _status
+        private enum Status
         {
             ServiceableСommissioned = 1,
             ServiceableNotСommissioned,
@@ -149,12 +146,12 @@ namespace Autoservice.Forms
         }
 
         #endregion
-        public Registry(User user, ShowAncestor _delegate)
+        public Registry(Menu menu)
         {
+            this.menu = menu;
+            menu.Hide();
             car = new Car();
-            this.user = user;
-            showAncestor = _delegate;
-            car.StatusId = (int)_status.DefectiveNotRepaired;
+            car.StatusId = (int) Status.DefectiveNotRepaired;
             InitializeComponent();
             transportModelComboBox.Items.AddRange(_transportModelList);
             transportModelComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -236,11 +233,20 @@ namespace Autoservice.Forms
         }
         #endregion
 
-        #region Form events
-        private void Registry_FormClosed(object sender, FormClosedEventArgs e)
+        #region Button events
+        private void initializeCarButton_Click(object sender, EventArgs e)
         {
-            showAncestor.Invoke();
+            DefaultOperations.AddCar(car);
+            MessageBox.Show("Car added in database!", "Success", MessageBoxButtons.OK);
+
+            Close();
         }
         #endregion
+
+        private void Registry_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            menu.DataGridViewUpdate();
+            menu.Show();
+        }
     }
 }

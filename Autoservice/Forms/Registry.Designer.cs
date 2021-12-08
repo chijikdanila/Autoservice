@@ -226,6 +226,7 @@ namespace Autoservice.Forms
             this.initializeCarButton.TabIndex = 12;
             this.initializeCarButton.Text = "Add";
             this.initializeCarButton.UseVisualStyleBackColor = false;
+            this.initializeCarButton.Click += new System.EventHandler(this.initializeCarButton_Click);
             // 
             // Registry
             // 
